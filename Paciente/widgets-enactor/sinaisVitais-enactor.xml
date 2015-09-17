@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Enactor xmlns="http://www.contexttoolkit.org/ctk" name="vitalEnactor">
+
+    <InWidget href="sinaisVitais-widget.xml" />
+    <OutWidget href="output-widget.xml" />
+
+    <OutcomeName>medicacao</OutcomeName>
+    <OutcomeName>mensagem</OutcomeName>
+    <OutcomeName>dosagem</OutcomeName>
+
+    <Reference name="PressaoBaixa">
+        <Query name="PressaoBaixa">
+            (AND
+            (LESS pressao 8)
+            )
+            
+        </Query>
+        <Outcome outAttribute="medicacao">"Efortil"</Outcome>
+       <Outcome outAttribute="mensagem">"A PRESSAO DO PACIENTE ENCONTRA-SE ABAIXO DOS VALORES NORMAIS."</Outcome>
+        <Outcome outAttribute="dosagem">5</Outcome>
+        <ServiceInput service="sinaisVitaisService" function="tratarPaciente">
+            <Attribute name="medicacao" />
+            <Attribute name="mensagem" />
+            <Attribute name="dosagem" />
+        </ServiceInput>
+    </Reference>
+    
+
+    <Reference name="PressaoAlta">
+        <Query name="PressaoAlta">
+			
+            (GREATER pressao 14)		
+        </Query>
+        <Outcome outAttribute="medicacao">"Atenolol"</Outcome>
+        <Outcome outAttribute="mensagem">"A PRESSAO DO PACIENTE ENCONTRA-SE ACIMA DOS VALORES NORMAIS."</Outcome>
+        <Outcome outAttribute="dosagem">"50"</Outcome>
+        <ServiceInput service="sinaisVitaisService" function="tratarPaciente">
+            <Attribute name="medicacao" />
+            <Attribute name="mensagem" />
+            <Attribute name="dosagem" />
+        </ServiceInput>
+    </Reference>
+
+    <Reference name="batimentosCardiacosBaixos">
+        <Query name="batimentosCardiacosBaixos">
+			
+            (LESS batimentosCardiacos 50)
+			
+        </Query>
+        <Outcome outAttribute="medicacao">"amiodarona generis"</Outcome>
+        <Outcome outAttribute="mensagem">"OS BATIMENTOS CARDIACOS DO PACIENTE ENCONTRAM-SE ABAIXO DOS VALORES NORMAIS."</Outcome>
+        <Outcome outAttribute="dosagem">200</Outcome>
+        <ServiceInput service="sinaisVitaisService" function="tratarPaciente">
+            <Attribute name="medicacao" />
+            <Attribute name="mensagem" />
+            <Attribute name="dosagem" />
+        </ServiceInput>
+    </Reference>
+
+    <Reference name="batimentosCardiacosAltos">
+        <Query name="batimentosCardiacosAltos">
+			
+            (GREATER batimentosCardiacos 130)
+			
+        </Query>
+        <Outcome outAttribute="medicacao">"AmioDarona"</Outcome>
+        <Outcome outAttribute="mensagem">"OS BATIMENTOS CARDIACOS DO PACIENTE ENCONTRAM-SE ACIMA DOS VALORES NORMAIS."</Outcome>
+        <Outcome outAttribute="dosagem">"200"</Outcome>
+        <ServiceInput service="sinaisVitaisService" function="tratarPaciente">
+            <Attribute name="medicacao" />
+            <Attribute name="mensagem" />
+            <Attribute name="dosagem" />
+        </ServiceInput>
+    </Reference>
+
+
+    <Reference name="NivelGlicoseBaixo">
+        <Query name="NivelGlicoseBaixo">
+			
+            (LESS nivelGlicose 60)
+			
+        </Query>
+        <Outcome outAttribute="medicacao">"Soro fisiologico glicosado "</Outcome>
+        <Outcome outAttribute="mensagem">"O NIVEL DE GLICOSE DO PACIENTE ENCONTRA-SE ABAIXO DOS VALORES NORMAIS."</Outcome>
+        <Outcome outAttribute="dosagem">"500"</Outcome>
+        <ServiceInput service="sinaisVitaisService" function="tratarPaciente">
+            <Attribute name="medicacao" />
+            <Attribute name="mensagem" />
+            <Attribute name="dosagem" />
+        </ServiceInput>
+    </Reference>
+
+    <Reference name="NivelGlicoseAlto">
+        <Query name="NivelGlicoseAlto">
+			
+            (GREATER nivelGlicose 130)
+			
+        </Query>
+        <Outcome outAttribute="medicacao">"Glucovance"</Outcome>
+        <Outcome outAttribute="mensagem">"O NIVEL DE GLICOSE DO PACIENTE ENCONTRA-SE ACIMA DOS VALORES NORMAIS."</Outcome>
+        <Outcome outAttribute="dosagem">"250"</Outcome>
+        <ServiceInput service="sinaisVitaisService" function="tratarPaciente">
+            <Attribute name="medicacao" />
+            <Attribute name="mensagem" />
+            <Attribute name="dosagem" />
+        </ServiceInput>
+    </Reference>
+
+
+
+</Enactor>

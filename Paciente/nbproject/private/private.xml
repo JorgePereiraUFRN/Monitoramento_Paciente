@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/C:/Users/Jorge/workspace/workspace%20SD/Paciente/widgets-enactor/sinaisVitais-enactor.xml</file>
+            <file>file:/C:/Users/Jorge/workspace/workspace%20SD/Paciente/widgets-enactor/sinaisVitais-widget.xml</file>
+            <file>file:/C:/Users/Jorge/workspace/workspace%20SD/Paciente/src/br/ufrn/gui/paciente.java</file>
+            <file>file:/C:/Users/Jorge/workspace/workspace%20SD/Paciente/src/br/ufrn/controle/PacienteFachadaInterface.java</file>
+            <file>file:/C:/Users/Jorge/workspace/workspace%20SD/Paciente/src/br/ufrn/excecoes/BDexception.java</file>
+            <file>file:/C:/Users/Jorge/workspace/workspace%20SD/Paciente/src/br/ufrn/controle/Email.java</file>
+            <file>file:/C:/Users/Jorge/workspace/workspace%20SD/Paciente/src/br/ufrn/controle/PacienteFachada.java</file>
+            <file>file:/C:/Users/Jorge/workspace/workspace%20SD/Paciente/widgets-enactor/output-widget.xml</file>
+            <file>file:/C:/Users/Jorge/workspace/workspace%20SD/Paciente/src/br/ufrn/context/PacienteService.java</file>
+            <file>file:/C:/Users/Jorge/workspace/workspace%20SD/Paciente/src/br/ufrn/BD/AlertaBD.java</file>
+            <file>file:/C:/Users/Jorge/workspace/workspace%20SD/Paciente/src/br/ufrn/entidades/Alerta.java</file>
+        </group>
+    </open-files>
+</project-private>
