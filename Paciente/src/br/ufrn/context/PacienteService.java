@@ -18,7 +18,7 @@ public class PacienteService extends Service {
 			{
 				add(new FunctionDescription(
 						"tratarPaciente", 
-						"aplica medicação e alerta ao medico e familiar", 
+						"aplica medicacao e alerta ao medico e familiar", 
 						widget.getNonConstantAttributes()));
 			}
 		});

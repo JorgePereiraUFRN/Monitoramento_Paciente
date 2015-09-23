@@ -12,11 +12,13 @@
         <Query name="PressaoBaixa">
             (AND
             (LESS pressao 8)
+            (GREATER batimentosCardiacos 49)
+            (LESS batimentosCardiacos 130)
             )
             
         </Query>
         <Outcome outAttribute="medicacao">"Efortil"</Outcome>
-       <Outcome outAttribute="mensagem">"A PRESSAO DO PACIENTE ENCONTRA-SE ABAIXO DOS VALORES NORMAIS."</Outcome>
+       <Outcome outAttribute="mensagem">"A # PRESSAO * DO PACIENTE ENCONTRA-SE # ABAIXO * DOS VALORES NORMAIS."</Outcome>
         <Outcome outAttribute="dosagem">5</Outcome>
         <ServiceInput service="sinaisVitaisService" function="tratarPaciente">
             <Attribute name="medicacao" />
@@ -25,11 +27,13 @@
         </ServiceInput>
     </Reference>
     
-
     <Reference name="PressaoAlta">
         <Query name="PressaoAlta">
-			
-            (GREATER pressao 14)		
+			(AND
+            (GREATER pressao 13)	
+          	(LESS batimentosCardiacos 131)
+          	(GREATER batimentosCardiacos 49)
+            )	
         </Query>
         <Outcome outAttribute="medicacao">"Atenolol"</Outcome>
         <Outcome outAttribute="mensagem">"A PRESSAO DO PACIENTE ENCONTRA-SE ACIMA DOS VALORES NORMAIS."</Outcome>
@@ -43,8 +47,11 @@
 
     <Reference name="batimentosCardiacosBaixos">
         <Query name="batimentosCardiacosBaixos">
-			
+			(AND
             (LESS batimentosCardiacos 50)
+            (GREATER pressao 7)
+            (LESS pressao 14)	
+            )
 			
         </Query>
         <Outcome outAttribute="medicacao">"amiodarona generis"</Outcome>
@@ -59,8 +66,11 @@
 
     <Reference name="batimentosCardiacosAltos">
         <Query name="batimentosCardiacosAltos">
-			
+			(AND
             (GREATER batimentosCardiacos 130)
+            (GREATER pressao 7)
+            (LESS pressao 14)	
+            )
 			
         </Query>
         <Outcome outAttribute="medicacao">"AmioDarona"</Outcome>
@@ -73,6 +83,80 @@
         </ServiceInput>
     </Reference>
 
+
+ <Reference name="batimentosEpressaoAltos">
+        <Query name="batimentosEpressaoAltos">
+			(AND
+            (GREATER batimentosCardiacos 130)
+            (GREATER pressao 14)
+            )
+			
+        </Query>
+        <Outcome outAttribute="medicacao">"amiodarona generis"</Outcome>
+        <Outcome outAttribute="mensagem">"OS BATIMENTOS CARDIACOS E PRESSÃO SANGUÍNEA DO PACIENTE ENCONTRAM-SE ACIMA DOS VALORES NORMAIS."</Outcome>
+        <Outcome outAttribute="dosagem">"250"</Outcome>
+        <ServiceInput service="sinaisVitaisService" function="tratarPaciente">
+            <Attribute name="medicacao" />
+            <Attribute name="mensagem" />
+            <Attribute name="dosagem" />
+        </ServiceInput>
+    </Reference>
+    
+    <Reference name="batimentosAltosPressaoBaixa">
+        <Query name="batimentosAltosPressaoBaixa">
+			(AND
+            (GREATER batimentosCardiacos 130)
+            (LESS pressao 8)
+            )
+			
+        </Query>
+        <Outcome outAttribute="medicacao">"GTG"</Outcome>
+        <Outcome outAttribute="mensagem">"OS BATIMENTOS CARDIACOS DO PACIENTE ENCONTRAM-SE AXCIMA DOS VALORES NORMAIS.A PRESSÃO SANGUÍNEA ENCONTRASSE ABIXO DOS VALORES NORMAIS"</Outcome>
+        <Outcome outAttribute="dosagem">"250"</Outcome>
+        <ServiceInput service="sinaisVitaisService" function="tratarPaciente">
+            <Attribute name="medicacao" />
+            <Attribute name="mensagem" />
+            <Attribute name="dosagem" />
+        </ServiceInput>
+    </Reference>
+   
+    
+    <Reference name="batimentosBaixosPressaoAlta">
+        <Query name="atimentosBaixosPressaoAlta">
+			(AND
+            (LESS batimentosCardiacos 50)
+            (GREATER pressao 13)
+            )
+			
+        </Query>
+        <Outcome outAttribute="medicacao">"nnn"</Outcome>
+        <Outcome outAttribute="mensagem">"OS BATIMENTOS CARDIACOS DO PACIENTE ENCONTRAM-SE ABAIXO DOS VALORES NORMAIS.\N A PRESSÃO SANGUÍNEA ENCONTRASSE CIMA DOS VALORES NORMAIS"</Outcome>
+        <Outcome outAttribute="dosagem">"250"</Outcome>
+        <ServiceInput service="sinaisVitaisService" function="tratarPaciente">
+            <Attribute name="medicacao" />
+            <Attribute name="mensagem" />
+            <Attribute name="dosagem" />
+        </ServiceInput>
+    </Reference>
+    
+
+	 <Reference name="batimentosEpressaoBaixos">
+        <Query name="batimentosEpressaoBaixos">
+			(AND
+            (LESS batimentosCardiacos 50)
+            (LESS pressao 8)
+            )
+			
+        </Query>
+        <Outcome outAttribute="medicacao">"AmioDarona"</Outcome>
+        <Outcome outAttribute="mensagem">"OS BATIMENTOS CARDIACOS E PRESSÃO SANGUÍNEA DO PACIENTE ENCONTRAM-SE ABAIXO DOS VALORES NORMAIS."</Outcome>
+        <Outcome outAttribute="dosagem">"250"</Outcome>
+        <ServiceInput service="sinaisVitaisService" function="tratarPaciente">
+            <Attribute name="medicacao" />
+            <Attribute name="mensagem" />
+            <Attribute name="dosagem" />
+        </ServiceInput>
+    </Reference>
 
     <Reference name="NivelGlicoseBaixo">
         <Query name="NivelGlicoseBaixo">

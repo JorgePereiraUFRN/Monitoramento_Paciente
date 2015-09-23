@@ -41,7 +41,4 @@ public class AlertaBD {
 		}
 	}
 
-	public void salvarAlerta(Alerta alerta){
-		
-	}
 }

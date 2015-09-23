@@ -5,6 +5,10 @@
  */
 package br.ufrn.gui;
 
+import java.net.MalformedURLException;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+
 import br.ufrn.controle.PacienteFachada;
 import br.ufrn.controle.PacienteFachadaInterface;
 
@@ -18,9 +22,12 @@ public class paciente extends javax.swing.JFrame {
     
     /**
      * Creates new form paciente
+     * @throws NotBoundException 
+     * @throws RemoteException 
+     * @throws MalformedURLException 
      */
-    public paciente() {
-    	pacienteControle = new PacienteFachada();
+    public paciente() throws MalformedURLException, RemoteException, NotBoundException {
+    	pacienteControle = new PacienteFachada("Paciente");
         initComponents();
         
     }
@@ -54,7 +61,7 @@ public class paciente extends javax.swing.JFrame {
         jSpressao.setMinorTickSpacing(1);
         jSpressao.setPaintLabels(true);
         jSpressao.setValue(10);
-        jSpressao.setBorder(javax.swing.BorderFactory.createTitledBorder("Press√£o"));
+        jSpressao.setBorder(javax.swing.BorderFactory.createTitledBorder("Press„o"));
         jSpressao.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jSpressao.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
@@ -67,7 +74,7 @@ public class paciente extends javax.swing.JFrame {
         jSbatimentos.setMinorTickSpacing(1);
         jSbatimentos.setPaintLabels(true);
         jSbatimentos.setValue(80);
-        jSbatimentos.setBorder(javax.swing.BorderFactory.createTitledBorder("Batimentos  Card√≠acos"));
+        jSbatimentos.setBorder(javax.swing.BorderFactory.createTitledBorder("Batimentos  CardÌacos"));
         jSbatimentos.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 jSbatimentosMouseReleased(evt);
@@ -97,7 +104,7 @@ public class paciente extends javax.swing.JFrame {
                 {null, null, null}
             },
             new String [] {
-                "Medicamento", "Hor√°rio", "Dosagem"
+                "Medicamento", "Hor·rio", "Dosagem"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -219,7 +226,12 @@ public class paciente extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new paciente().setVisible(true);
+                try {
+					new paciente().setVisible(true);
+				} catch (MalformedURLException | RemoteException | NotBoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         });
     }

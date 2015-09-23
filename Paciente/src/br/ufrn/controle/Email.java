@@ -21,48 +21,44 @@ import javax.mail.internet.MimeMessage;
  * @author Jorge
  */
 public class Email {
-    
-    public static void main(String[] args) throws NoSuchProviderException, MessagingException {
-         // mail server connection parameters
-    Properties props = new Properties();
-          
-            props.put("mail.smtp.host", "192.168.43.73");
-            props.put("mail.smtp.socketFactory.port", "25");
-            props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-            props.put("mail.smtp.auth", "false");
-            props.put("mail.smtp.port", "25");
 
-            Session session = Session.getDefaultInstance(props,
-                        new javax.mail.Authenticator() {
-                             protected PasswordAuthentication getPasswordAuthentication() 
-                             {
-                                   return new PasswordAuthentication("medico@topicos.com.br", "123456");
-                             }
-                        });
+	public void enviarEmail(String assunto, String mensagem, String destinatario) {
+		
+		Properties props = new Properties();
 
-            /** Ativa Debug para sessão */
-            session.setDebug(true);
+		props.put("mail.smtp.host", "192.168.43.73");
+		props.put("mail.smtp.socketFactory.port", "25");
+		props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+		props.put("mail.smtp.auth", "false");
+		props.put("mail.smtp.port", "25");
 
-            try {
+		Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication("medico@topicos.com.br", "123456");
+			}
+		});
 
-                  Message message = new MimeMessage(session);
-                  message.setFrom(new InternetAddress("medico@topicos.com.br")); //Remetente
+		/** Ativa Debug para sessao */
+		session.setDebug(true);
 
-                  Address[] toUser = InternetAddress //Destinatário(s)
-                             .parse("paciente@topicos.com.br");  
+		try {
 
-                  message.setRecipients(Message.RecipientType.TO, toUser);
-                  message.setSubject("Enviando email com JavaMail");//Assunto
-                  message.setText("Enviei este email utilizando JavaMail !");
-                  /**Método para enviar a mensagem criada*/
-                  Transport.send(message);
+			Message message = new MimeMessage(session);
+			message.setFrom(new InternetAddress("medico@topicos.com.br")); // Remetente
 
-                  System.out.println("Feito!!!");
+			Address[] toUser = InternetAddress // Destinatário(s)
+					.parse(destinatario);
 
-             } catch (MessagingException e) {
-                  throw new RuntimeException(e);
-            }
-      }
+			message.setRecipients(Message.RecipientType.TO, toUser);
+			message.setSubject(assunto);// Assunto
+			message.setText(mensagem);
+			
+			Transport.send(message);
+
+		} catch (MessagingException e) {
+			throw new RuntimeException(e);
+		}
+	}
 
 
 }
