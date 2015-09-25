@@ -14,7 +14,7 @@ public class acessoBD {
     public Connection conectar(){
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://localhost/bd name", "user", "senha");
+            con = DriverManager.getConnection("jdbc:mysql://localhost/monitoramentopaciente", "root", "qwe123");
         } catch (SQLException ex) {
             Logger.getLogger(acessoBD.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {

@@ -1,26 +1,40 @@
 package br.ufrn.entidades;
 
 import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Alerta {
 
     private long id;
-    private SinalVital sinalVital;
-    private int valor;
-    private Date data;
-    private String paciente;
+    private String sinalVitalDesconforme;;
+    private Timestamp data;
+    private Paciente paciente;
     private String medicacao;
     private int dosagem;
+    Map<String, Integer> sinaisVitais = new HashMap<>();
 
-    public String getPaciente() {
-        return paciente;
-    }
+    
+    
+    
+    public Map<String, Integer> getSinaisVitais() {
+		return sinaisVitais;
+	}
 
-    public void setPaciente(String paciente) {
-        this.paciente = paciente;
-    }
+	public void setSinaisVitais(Map<String, Integer> sinaisVitais) {
+		this.sinaisVitais = sinaisVitais; 
+	}
 
-    public String getMedicacao() {
+	public Paciente getPaciente() {
+		return paciente;
+	}
+
+	public void setPaciente(Paciente paciente) {
+		this.paciente = paciente;
+	}
+
+	public String getMedicacao() {
         return medicacao;
     }
 
@@ -44,27 +58,20 @@ public class Alerta {
         this.id = id;
     }
 
-    public int getValor() {
-        return valor;
+
+    public String getSinalVitalDesconforme() {
+        return sinalVitalDesconforme;
     }
 
-    public void setValor(int valor) {
-        this.valor = valor;
+    public void setSinalVitasDesconforme(String sinalVital) {
+        this.sinalVitalDesconforme = sinalVital;
     }
 
-    public SinalVital getSinalVital() {
-        return sinalVital;
-    }
-
-    public void setSinalVital(SinalVital sinalVital) {
-        this.sinalVital = sinalVital;
-    }
-
-    public Date getData() {
+    public Timestamp getData() {
         return data;
     }
 
-    public void setData(Date data) {
+    public void setData(Timestamp data) {
         this.data = data;
     }
 

@@ -6,7 +6,7 @@ import java.util.Map;
 import br.ufrn.entidades.Alerta;
 import br.ufrn.excecoes.BDexception;
 
-public interface PacienteFachadaInterface {
+public interface PacienteFachadaInterface extends AlertaInterface{
 
 	public void atualizarGlicose(int nivelGlicose);
 
@@ -14,6 +14,5 @@ public interface PacienteFachadaInterface {
 
 	public void atualizarPressao(int pressao);
 
-	public void notificarAlerta(Alerta alerta,  Map<String , Integer> sinaisVitais) throws BDexception, RemoteException;
-
+	
 }

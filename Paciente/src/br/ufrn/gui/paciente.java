@@ -8,18 +8,22 @@ package br.ufrn.gui;
 import java.net.MalformedURLException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.util.Date;
+
+import javax.swing.JOptionPane;
 
 import br.ufrn.controle.PacienteFachada;
 import br.ufrn.controle.PacienteFachadaInterface;
+import br.ufrn.controle.PacienteGUI;
 
 /**
  *
  * @author jorge
  */
-public class paciente extends javax.swing.JFrame {
+public class paciente extends javax.swing.JFrame  implements PacienteGUI{
 
     private final PacienteFachadaInterface pacienteControle;
-    
+    private int linhasTabela = 0;
     /**
      * Creates new form paciente
      * @throws NotBoundException 
@@ -27,10 +31,27 @@ public class paciente extends javax.swing.JFrame {
      * @throws MalformedURLException 
      */
     public paciente() throws MalformedURLException, RemoteException, NotBoundException {
-    	pacienteControle = new PacienteFachada("Paciente");
+    	pacienteControle = new PacienteFachada("Paciente", this);
         initComponents();
         
     }
+    
+    
+    @Override
+	public void updateGUI(String medicamento, Date horario, Integer dosagem, String mensagem) {
+		
+    	
+    	jTprodutos.setValueAt(medicamento, linhasTabela, 0);
+    	jTprodutos.setValueAt(horario.toLocaleString(), linhasTabela, 1);
+    	jTprodutos.setValueAt(dosagem, linhasTabela, 2);
+
+
+    	linhasTabela ++;
+    	
+		JOptionPane.showMessageDialog(this, mensagem+"\nmedicacao: "+medicamento+" dosagem: "+dosagem);
+	}
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -48,7 +69,7 @@ public class paciente extends javax.swing.JFrame {
         jSglicose = new javax.swing.JSlider();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTprodutos = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -96,7 +117,7 @@ public class paciente extends javax.swing.JFrame {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTprodutos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
                 {null, null, null},
@@ -115,7 +136,7 @@ public class paciente extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane2.setViewportView(jTable1);
+        jScrollPane2.setViewportView(jTprodutos);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -244,6 +265,8 @@ public class paciente extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSlider jSglicose;
     private javax.swing.JSlider jSpressao;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTprodutos;
     // End of variables declaration//GEN-END:variables
+
+	
 }

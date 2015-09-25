@@ -4,13 +4,20 @@ import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Map;
+
+import org.coach.tracing.service.ntp.TimeStamp;
 
 import br.ufrn.BD.AlertaBD;
 import br.ufrn.callback.CallbackPacienteInterface;
 import br.ufrn.callback.MedicoInterface;
 import br.ufrn.context.PacienteService;
 import br.ufrn.entidades.Alerta;
+import br.ufrn.entidades.Paciente;
 import br.ufrn.entidades.SinalVital;
 import br.ufrn.excecoes.BDexception;
 import context.arch.discoverer.Discoverer;
@@ -31,10 +38,14 @@ public class PacienteFachada implements PacienteFachadaInterface, CallbackPacien
 	private final AlertaBD bd = new AlertaBD();
 	private MedicoInterface medico;
 	
-	private String nomePaciente;
+	private Paciente paciente = new Paciente();
+	private PacienteGUI gui;
 
-	public PacienteFachada(String nomePaciente) throws MalformedURLException, RemoteException, NotBoundException {
+	public PacienteFachada(String nomePaciente, PacienteGUI gui) throws MalformedURLException, RemoteException, NotBoundException {
+		this.gui = gui;
 		
+		paciente.setNome("nome");
+		paciente.setId(1);
 		//medico = recuperarReferenciaMedico();
 		//medico.registrarPaciente(this, nomePaciente);
 		Discoverer.start();
@@ -43,7 +54,7 @@ public class PacienteFachada implements PacienteFachadaInterface, CallbackPacien
 
 		widgetSaida = WidgetXmlParser.createWidget("widgets-enactor/output-widget.xml");
 
-		pacienteService = new PacienteService(widgetSaida);
+		pacienteService = new PacienteService(widgetSaida, this);
 		widgetSaida.addService(pacienteService);
 
 		pacienteEnactor = EnactorXmlParser.createEnactor("widgets-enactor/sinaisVitais-enactor.xml");
@@ -81,35 +92,46 @@ public class PacienteFachada implements PacienteFachadaInterface, CallbackPacien
 	}
 
 	@Override
-	public void notificarAlerta(Alerta alerta , Map<String , Integer> sinaisVitais) throws BDexception, RemoteException {
-		bd.salvarDadosAlerta(alerta);
+	public void notificarAlerta(String mensagem, String medicacao, int dosagem) throws BDexception, RemoteException {	
+		
+		Alerta alerta = new Alerta();
+		alerta.setData(new Timestamp(System.currentTimeMillis()));
+		alerta.setDosagem(dosagem);
+		alerta.setMedicacao(medicacao);
+		alerta.setSinalVitasDesconforme(widgetSaida.getNonConstantAttributeValue("sinalVital"));
+		
+		Map<String, Integer> sinaisVitais = new HashMap<>();
+		
+		sinaisVitais.put(SinalVital.BATIMENTOS.toString(), widgetPaciente.getNonConstantAttributeValue("batimentosCardiacos"));
+		sinaisVitais.put(SinalVital.GLICOSE.toString(), widgetPaciente.getNonConstantAttributeValue("nivelGlicose"));
+		sinaisVitais.put(SinalVital.PRESSAO.toString(), widgetPaciente.getNonConstantAttributeValue("pressao"));
+		
+	
+		alerta.setSinaisVitais(sinaisVitais);
+		alerta.setPaciente(paciente);
+		
 		
 		if(alerta != null){
 		
-		String mensagem = " Sinais vitais do Paciente em "+ alerta.getData().toLocalDate() +"\n";
+		String mensagemEmail = " Sinais vitais do Paciente em "+ alerta.getData().toLocaleString() +"\n";
 		
 		for(String s : sinaisVitais.keySet()){
-			mensagem += s +" = "+sinaisVitais.get(s)+"\n";
+			mensagemEmail += s +" = "+sinaisVitais.get(s)+"\n";
 		}
 		
-		mensagem += "\nMedicação aplicada:" +alerta.getMedicacao() + " dosagem: "+alerta.getDosagem();
+		mensagemEmail += "\nMedicação aplicada:" +alerta.getMedicacao() + " dosagem: "+alerta.getDosagem();
+			
 		
-				
-		String assunto = "";
+		String assunto= alerta.getSinalVitalDesconforme() +" do Paiciente "+alerta.getPaciente()+" fora dos limites";
 		
-		if(alerta.getSinalVital().equals(SinalVital.BATIMENTOS))
-			assunto = "Batimentos cardiíacos fora limites normais";
-		else if(alerta.getSinalVital().equals(SinalVital.GLICOSE))
-			assunto = "Nível de Glisoce fora limites normais";
-		else if(alerta.getSinalVital().equals(SinalVital.GLICOSE))
-			assunto = "Pressão arterial fora limites normais";
-		
-		assunto+= " - Paiciente "+alerta.getPaciente();
-		
-		email.enviarEmail(assunto, mensagem, "paciente@topicos.com.br");
+		//email.enviarEmail(assunto, mensagem, "paciente@topicos.com.br");
 		
 		
-		medico.notificarAlerta(alerta.getPaciente());
+		medico.notificarAlerta(alerta.getPaciente().getNome());
+		
+		bd.salvarDadosAlerta(alerta);
+		
+		gui.updateGUI(alerta.getMedicacao(), alerta.getData(), alerta.getDosagem(), mensagem);
 		
 		}
 		

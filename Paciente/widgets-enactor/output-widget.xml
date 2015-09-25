@@ -3,6 +3,7 @@
 	<Attributes>
 		<Attribute name="medicacao" type="string" />	
 		<Attribute name="mensagem" type="string" />
-		<Attribute name="dosagem" type="int" />		
+		<Attribute name="dosagem" type="int" />	
+		<Attribute name="sinalVital" type="string" />	
 	</Attributes>	
 </Widget>
