@@ -9,31 +9,31 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import br.ufrn.Controle.MedicoFachadaInterface;
 import br.ufrn.excecoes.PacienteJaExisteException;
 import br.ufrn.gui.GUI;
 
-public class Medico extends UnicastRemoteObject implements MedicoInterface, CallbackMensagem{
+public class MedicoRMI extends UnicastRemoteObject implements MedicoInterface, CallbackMensagem{
 	
 	private final Map<String, CallbackPacienteInterface> pacientes = new HashMap<>();
-	private GUI gui;
-	private static Medico MEDICO;
+	private static MedicoRMI MEDICO;
+	private MedicoFachadaInterface medicoFachada;
 	
-	
-	private Medico(GUI gui) throws RemoteException {
+	private MedicoRMI(MedicoFachadaInterface medicoFachada) throws RemoteException {
 		super();
-		this.gui = gui;
+		this.medicoFachada = medicoFachada;
 	}
 	
-	public synchronized Medico getInstance(GUI gui) throws RemoteException, MalformedURLException{
+	public static synchronized MedicoRMI getInstance(MedicoFachadaInterface medicoFachada) throws RemoteException, MalformedURLException{
 		if(MEDICO == null){
-			MEDICO = new Medico(gui);
+			MEDICO = new MedicoRMI(medicoFachada);
 			registrarInterface(MEDICO);
 		}
 		
 		return MEDICO;
 	}
 	
-	private void registrarInterface(MedicoInterface medico) throws RemoteException, MalformedURLException{
+	private static void registrarInterface(MedicoInterface medico) throws RemoteException, MalformedURLException{
 		int port = 2000;
 		String url = "rmi://localhost:" + port + "/medico";
 		
@@ -41,12 +41,6 @@ public class Medico extends UnicastRemoteObject implements MedicoInterface, Call
 		Naming.rebind(url, medico);
 	}
 	
-	
-	@Override
-	public void notificarAlerta(String nomePaciente) throws RemoteException {
-		gui.atualizarGUI(nomePaciente);
-		
-	}
 
 	@Override
 	public void registrarPaciente(CallbackPacienteInterface paciente, String nomePaciente) throws RemoteException, PacienteJaExisteException{
@@ -73,6 +67,12 @@ public class Medico extends UnicastRemoteObject implements MedicoInterface, Call
 		if(pacienteCallback != null){
 			pacienteCallback.enviarMensagem(mensagem);
 		}
+	}
+
+	@Override
+	public void notificarAlerta(String nomePaciente) throws RemoteException {
+		medicoFachada.atualizarGUI(nomePaciente);
+		
 	}
 
 	

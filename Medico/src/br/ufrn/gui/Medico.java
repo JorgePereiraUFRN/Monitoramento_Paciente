@@ -5,18 +5,58 @@
  */
 package br.ufrn.gui;
 
+import java.net.MalformedURLException;
+import java.rmi.RemoteException;
+import java.util.HashMap;
+import java.util.Map;
+
+import br.ufrn.Controle.MedicoFachada;
+import br.ufrn.Controle.MedicoFachadaInterface;
+
 /**
  *
  * @author jorge
  */
-public class Medico extends javax.swing.JFrame {
+public class Medico extends javax.swing.JFrame implements GUI {
 
-    /**
-     * Creates new form Medico
-     */
+   
+	private Map<String, Integer> alertas = new HashMap<>();
+	
+	private MedicoFachadaInterface fachada;
+	
     public Medico() {
         initComponents();
+        try {
+			new MedicoFachada(this);
+		} catch (RemoteException | MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
+    
+    @Override
+	public void atualizarGUI(String paciente) {
+		
+    	if(alertas.get(paciente) == null){
+    		alertas.put(paciente, 1);
+    		
+    	}else{
+    		Integer aux = alertas.get(paciente);
+    		aux++;
+    		alertas.remove(paciente);
+    		alertas.put(paciente, aux);
+    	}
+    	
+    	int i = 0;
+    	
+    	for(String p : alertas.keySet()){
+    		
+    		jTable1.setValueAt(p, i, 0);
+    		jTable1.setValueAt(alertas.get(p), i, 1);
+    		
+    	}
+		
+	}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -36,7 +76,7 @@ public class Medico extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
 
-        jMenuItem1.setText("Ver HistÃ³rico");
+        jMenuItem1.setText("Ver Histórico");
         jPopupMenu1.add(jMenuItem1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -160,4 +200,5 @@ public class Medico extends javax.swing.JFrame {
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
+	
 }

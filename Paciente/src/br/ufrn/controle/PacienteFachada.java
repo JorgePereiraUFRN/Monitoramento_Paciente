@@ -4,6 +4,7 @@ import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Calendar;
@@ -26,7 +27,7 @@ import context.arch.enactor.EnactorXmlParser;
 import context.arch.widget.Widget;
 import context.arch.widget.WidgetXmlParser;
 
-public class PacienteFachada implements PacienteFachadaInterface, CallbackPacienteInterface {
+public class PacienteFachada extends UnicastRemoteObject implements PacienteFachadaInterface, CallbackPacienteInterface {
 
 	// private MonitoramentoPaciente paciente;
 	private final Widget widgetPaciente;
@@ -46,8 +47,8 @@ public class PacienteFachada implements PacienteFachadaInterface, CallbackPacien
 		
 		paciente.setNome("nome");
 		paciente.setId(1);
-		//medico = recuperarReferenciaMedico();
-		//medico.registrarPaciente(this, nomePaciente);
+		medico = recuperarReferenciaMedico();
+		medico.registrarPaciente(this, nomePaciente);
 		Discoverer.start();
                
 		widgetPaciente = WidgetXmlParser.createWidget("widgets-enactor/sinaisVitais-widget.xml");

@@ -1,22 +1,29 @@
 package br.ufrn.entidades;
 
 import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Alerta {
-	
-	private long id;
-	private SinalVital sinalVital;
-	private int valor;
-	private Date data;
-	private Paciente paciente;
-	
-	
-	public long getId() {
-		return id;
+
+    private long id;
+    private String sinalVitalDesconforme;;
+    private Timestamp data;
+    private Paciente paciente;
+    private String medicacao;
+    private int dosagem;
+    Map<String, Integer> sinaisVitais = new HashMap<>();
+
+    
+    
+    
+    public Map<String, Integer> getSinaisVitais() {
+		return sinaisVitais;
 	}
 
-	public void setId(long id) {
-		this.id = id;
+	public void setSinaisVitais(Map<String, Integer> sinaisVitais) {
+		this.sinaisVitais = sinaisVitais; 
 	}
 
 	public Paciente getPaciente() {
@@ -27,30 +34,45 @@ public class Alerta {
 		this.paciente = paciente;
 	}
 
-	public int getValor() {
-		return valor;
-	}
+	public String getMedicacao() {
+        return medicacao;
+    }
 
-	public void setValor(int valor) {
-		this.valor = valor;
-	}
+    public void setMedicacao(String medicacao) {
+        this.medicacao = medicacao;
+    }
 
-	public SinalVital getSinalVital() {
-		return sinalVital;
-	}
+    public int getDosagem() {
+        return dosagem;
+    }
 
-	public void setSinalVital(SinalVital sinalVital) {
-		this.sinalVital = sinalVital;
-	}
+    public void setDosagem(int dosagem) {
+        this.dosagem = dosagem;
+    }
 
-	public Date getData() {
-		return data;
-	}
+    public long getId() {
+        return id;
+    }
 
-	public void setData(Date data) {
-		this.data = data;
-	}
+    public void setId(long id) {
+        this.id = id;
+    }
 
-	
+
+    public String getSinalVitalDesconforme() {
+        return sinalVitalDesconforme;
+    }
+
+    public void setSinalVitasDesconforme(String sinalVital) {
+        this.sinalVitalDesconforme = sinalVital;
+    }
+
+    public Timestamp getData() {
+        return data;
+    }
+
+    public void setData(Timestamp data) {
+        this.data = data;
+    }
 
 }
