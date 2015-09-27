@@ -62,7 +62,7 @@ public class Historico extends javax.swing.JFrame {
 
 		for (int i = 0; i < alertas.size(); i++) {
 
-			model.addRow(new String[] { null, null, null, null });
+			model.addRow(new String[] { null, null, null, null, null });
 			Alerta a = alertas.get(i);
 
 			Integer pressao = a.getSinaisVitais().get(SinalVital.PRESSAO.toString());
@@ -88,6 +88,7 @@ public class Historico extends javax.swing.JFrame {
 			preencherCelula(model,
 					a.getData().getHours() + ":" + a.getData().getMinutes() + ":" + a.getData().getSeconds(), i, 3);
 
+			preencherCelula(model, a.getMedicacao(), i, 4);
 		}
 	}
 
@@ -128,12 +129,12 @@ public class Historico extends javax.swing.JFrame {
 			}
 		});
 
-		setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
 		jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
 		jTable1.setModel(new javax.swing.table.DefaultTableModel(new Object[][] {},
-				new String[] { "Pressão", "Batimentos", "Glicose", "Hora" }));
+				new String[] { "Pressão", "Batimentos", "Glicose", "Hora" , "Medicação"}));
 		jScrollPane1.setViewportView(jTable1);
 
 		jLabel1.setText("Paciente:");

@@ -14,6 +14,8 @@ import java.util.Map;
 import org.coach.tracing.service.ntp.TimeStamp;
 
 import br.ufrn.BD.AlertaBD;
+import br.ufrn.BD.BDpacienteInterface;
+import br.ufrn.BD.Bdpaciente;
 import br.ufrn.callback.CallbackPacienteInterface;
 import br.ufrn.callback.MedicoInterface;
 import br.ufrn.context.PacienteService;
@@ -21,6 +23,7 @@ import br.ufrn.entidades.Alerta;
 import br.ufrn.entidades.Paciente;
 import br.ufrn.entidades.SinalVital;
 import br.ufrn.excecoes.BDexception;
+import br.ufrn.excecoes.ErroRMIException;
 import context.arch.discoverer.Discoverer;
 import context.arch.enactor.Enactor;
 import context.arch.enactor.EnactorXmlParser;
@@ -37,18 +40,18 @@ public class PacienteFachada extends UnicastRemoteObject implements PacienteFach
 	
 	private final Email email = new Email();
 	private final AlertaBD bd = new AlertaBD();
+	private BDpacienteInterface BDpaciente = new Bdpaciente();
 	private MedicoInterface medico;
 	
 	private Paciente paciente = new Paciente();
 	private PacienteGUI gui;
+	
+	
 
-	public PacienteFachada(String nomePaciente, PacienteGUI gui) throws MalformedURLException, RemoteException, NotBoundException {
+	public PacienteFachada(PacienteGUI gui) throws RemoteException {
 		this.gui = gui;
 		
-		paciente.setNome("nome");
-		paciente.setId(1);
-		medico = recuperarReferenciaMedico();
-		medico.registrarPaciente(this, nomePaciente);
+		
 		Discoverer.start();
                
 		widgetPaciente = WidgetXmlParser.createWidget("widgets-enactor/sinaisVitais-widget.xml");
@@ -93,7 +96,7 @@ public class PacienteFachada extends UnicastRemoteObject implements PacienteFach
 	}
 
 	@Override
-	public void notificarAlerta(String mensagem, String medicacao, int dosagem) throws BDexception, RemoteException {	
+	public void notificarAlerta(String mensagem, String medicacao, int dosagem) throws BDexception, RemoteException, ErroRMIException {	
 		
 		Alerta alerta = new Alerta();
 		alerta.setData(new Timestamp(System.currentTimeMillis()));
@@ -109,7 +112,7 @@ public class PacienteFachada extends UnicastRemoteObject implements PacienteFach
 		
 	
 		alerta.setSinaisVitais(sinaisVitais);
-		alerta.setPaciente(paciente);
+		alerta.setPaciente(BDpaciente.listarPacienteByName(gui.getNomePaciente()).get(0));
 		
 		
 		if(alerta != null){
@@ -127,7 +130,16 @@ public class PacienteFachada extends UnicastRemoteObject implements PacienteFach
 		
 		//email.enviarEmail(assunto, mensagem, "paciente@topicos.com.br");
 		
-		
+		if(medico == null){
+			try {
+				medico = recuperarReferenciaMedico();
+				medico.registrarPaciente(this, gui.getNomePaciente());
+				
+			} catch (MalformedURLException | NotBoundException e) {
+				throw new ErroRMIException(e.getMessage());
+			}
+			
+		}
 		medico.notificarAlerta(alerta.getPaciente().getNome());
 		
 		bd.salvarDadosAlerta(alerta);
@@ -141,6 +153,15 @@ public class PacienteFachada extends UnicastRemoteObject implements PacienteFach
 	@Override
 	public void enviarMensagem(String mensagem) throws RemoteException {
 		
+		
+	}
+
+	@Override
+	public void inserirNomePaciente(String nome) throws BDexception {
+		
+		if(BDpaciente.listarPacienteByName(nome).size() == 0){
+			BDpaciente.casdastrarPaciente(nome);
+		}
 		
 	}
 

@@ -67,6 +67,7 @@ public class Medico extends javax.swing.JFrame implements GUI {
 			jTalertas.setValueAt(p, i, 0);
 			jTalertas.setValueAt(alertas.get(p), i, 1);
 
+			i++;
 		}
 
 	}
@@ -95,8 +96,7 @@ public class Medico extends javax.swing.JFrame implements GUI {
 		jMenuItem1 = new javax.swing.JMenuItem();
 		jPanel1 = new javax.swing.JPanel();
 		jLabel1 = new javax.swing.JLabel();
-		jLabel2 = new javax.swing.JLabel();
-		jTextField1 = new javax.swing.JTextField();
+
 		jScrollPane1 = new javax.swing.JScrollPane();
 		jTalertas = new javax.swing.JTable();
 
@@ -115,9 +115,7 @@ public class Medico extends javax.swing.JFrame implements GUI {
 
 		jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/ufrn/icons/doctor-04.gif"))); // NOI18N
 
-		jLabel2.setText("Medico:");
-
-		jTextField1.setEditable(false);
+		
 
 		jTalertas.setModel(new javax.swing.table.DefaultTableModel(
 				new Object[][] {  },
@@ -135,11 +133,10 @@ public class Medico extends javax.swing.JFrame implements GUI {
 										.addGap(18, 18, 18)
 										.addGroup(jPanel1Layout
 												.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-												.addGroup(jPanel1Layout.createSequentialGroup().addComponent(jLabel2)
+												.addGroup(jPanel1Layout.createSequentialGroup()
 														.addPreferredGap(
 																javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-												.addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 363,
-														javax.swing.GroupLayout.PREFERRED_SIZE))
+												)
 								.addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 430,
 										javax.swing.GroupLayout.PREFERRED_SIZE))
 						.addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
@@ -147,8 +144,7 @@ public class Medico extends javax.swing.JFrame implements GUI {
 				.addGroup(jPanel1Layout.createSequentialGroup().addComponent(jLabel1).addGap(0, 0, Short.MAX_VALUE))
 				.addGroup(jPanel1Layout.createSequentialGroup().addGap(21, 21, 21)
 						.addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-								.addComponent(jLabel2).addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE,
-										javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+								)
 						.addGap(33, 33, 33)
 						.addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 303,
 								javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -215,13 +211,13 @@ public class Medico extends javax.swing.JFrame implements GUI {
 
 	// Variables declaration - do not modify//GEN-BEGIN:variables
 	private javax.swing.JLabel jLabel1;
-	private javax.swing.JLabel jLabel2;
+	//private javax.swing.JLabel jLabel2;
 	private javax.swing.JMenuItem jMenuItem1;
 	private javax.swing.JPanel jPanel1;
 	private javax.swing.JPopupMenu jPopupMenu;
 	private javax.swing.JScrollPane jScrollPane1;
 	private javax.swing.JTable jTalertas;
-	private javax.swing.JTextField jTextField1;
+	//private javax.swing.JTextField jTextField1;
 	// End of variables declaration//GEN-END:variables
 
 }

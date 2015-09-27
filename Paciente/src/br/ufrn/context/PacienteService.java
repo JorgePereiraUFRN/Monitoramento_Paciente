@@ -8,6 +8,7 @@ import javax.swing.JOptionPane;
 import br.ufrn.controle.AlertaInterface;
 import br.ufrn.entidades.Alerta;
 import br.ufrn.excecoes.BDexception;
+import br.ufrn.excecoes.ErroRMIException;
 import context.arch.comm.DataObject;
 import context.arch.service.Service;
 import context.arch.service.helper.FunctionDescription;
@@ -41,8 +42,7 @@ public class PacienteService extends Service {
 			int dosagem = input.getInput().getAttributeValue("dosagem");
 
 			alertaInterface.notificarAlerta(mensagem, medicacao, dosagem);
-		} catch (RemoteException | BDexception e) {
-			// TODO Auto-generated catch block
+		} catch (RemoteException | BDexception | ErroRMIException e) {
 			e.printStackTrace();
 		}
 

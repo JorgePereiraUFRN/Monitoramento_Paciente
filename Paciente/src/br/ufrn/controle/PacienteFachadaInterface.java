@@ -13,6 +13,9 @@ public interface PacienteFachadaInterface extends AlertaInterface{
 	public void atualizarBatimentos(int batimentosCardiacos);
 
 	public void atualizarPressao(int pressao);
+	
+	public void inserirNomePaciente(String nome) throws BDexception;
+	
 
 	
 }

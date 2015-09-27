@@ -31,7 +31,8 @@ public class BdAlertas implements BDalertasInterface {
 	@Override
 	public List<Alerta> listarAlertas(String nome, Date data) throws BDexception {
 
-		String sql_query = "Select * from alertas a Inner Join paciente p where p.nome = ? and data Between ? and ?";
+		String sql_query = "Select * from alertas a Inner Join paciente p ON a.pacienteId = p.id "
+				+ "where p.nome = ? and data Between ? and ?";
 		
 		
 		List<Alerta> alertas = new ArrayList<>();
