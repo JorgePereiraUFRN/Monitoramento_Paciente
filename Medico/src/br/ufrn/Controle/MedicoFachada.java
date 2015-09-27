@@ -27,13 +27,14 @@ public class MedicoFachada implements MedicoFachadaInterface {
 
 	@Override
 	public void atualizarGUI(String paciente) {
+		if(gui != null)
 		this.gui.atualizarGUI(paciente);
 
 	}
 
 	@Override
 	public List<Alerta> recuperarAlertas(String paciente, Date data) throws BDexception {
-		return bd.listarAlertas();
+		return bd.listarAlertas(paciente, data);
 	}
 
 	@Override

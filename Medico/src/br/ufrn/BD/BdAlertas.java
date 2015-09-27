@@ -1,9 +1,11 @@
 package br.ufrn.BD;
 
+import java.util.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,14 +29,29 @@ public class BdAlertas implements BDalertasInterface {
 	 * @see br.ufrn.BD.BDalertasInterface#listarAlertas()
 	 */
 	@Override
-	public List<Alerta> listarAlertas() throws BDexception {
+	public List<Alerta> listarAlertas(String nome, Date data) throws BDexception {
 
 		String sql_query = "Select * from alertas a Inner Join paciente p where p.nome = ? and data Between ? and ?";
+		
+		
 		List<Alerta> alertas = new ArrayList<>();
 		try {
+			
 			pstm = bd.conectar().prepareStatement(sql_query);
+			
+			pstm.setString(1, nome);
+			
+			pstm.setDate(2, new java.sql.Date(data.getTime()));
+			
+			Calendar c = Calendar.getInstance();
+			
+			c.setTime(data);
+			c.add(Calendar.DAY_OF_MONTH, 1);
+			
+			pstm.setDate(3, new java.sql.Date(c.getTimeInMillis()));
 
 			rs = pstm.executeQuery();
+			
 			Alerta alerta;
 			
 			 while (rs.next()) {

@@ -9,9 +9,8 @@ import br.ufrn.excecoes.BDexception;
 import br.ufrn.gui.GUI;
 
 
-public interface MedicoFachadaInterface extends GUI {
+public interface MedicoFachadaInterface extends GUI, MedicoDao{
 	
-	public List<Alerta> recuperarAlertas(String paciente, Date data) throws BDexception;
 	
 	public void enviarMensagemAoPaciente(String paciente, String mensagem);
 	
