@@ -5,6 +5,18 @@
  */
 package br.ufrn.gui;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.JOptionPane;
+
+import br.ufrn.BD.BDpacienteInterface;
+import br.ufrn.BD.Bdpaciente;
+import br.ufrn.entidades.Paciente;
+import br.ufrn.excecoes.BDexception;
+
 /**
  *
  * @author jorge
@@ -14,10 +26,45 @@ public class Familiar extends javax.swing.JFrame {
     /**
      * Creates new form Familiar
      */
+	
+	private BDpacienteInterface bd = new Bdpaciente();
+	private List<Paciente> pacientes = new ArrayList<>();
+	
     public Familiar() {
         initComponents();
+        
+        try {
+			listarPacientes();
+		} catch (BDexception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 
+    
+    private void listarPacientes() throws BDexception{
+    	pacientes = bd.listarPacientes();
+    	
+    	for(Paciente p : pacientes)
+    	jCpaciente.addItem(p.getNome());
+    }
+    
+    private void casdastrarEmailResponsavel(){
+    	
+    	String email = jTextField2.getText().trim();
+    	if(jCpaciente.getSelectedIndex() > -1){
+    	
+    		try {
+				bd.casstrarResponsavel(pacientes.get(jCpaciente.getSelectedIndex()).getId(), email);
+				
+				JOptionPane.showMessageDialog(this, "Email cadastrado com sucesso!");
+			} catch (BDexception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    	}
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -29,10 +76,19 @@ public class Familiar extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        jCpaciente = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
         jTextField2 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
+        
+        jButton1.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				casdastrarEmailResponsavel();
+				
+			}
+		});
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -40,7 +96,7 @@ public class Familiar extends javax.swing.JFrame {
 
         jLabel1.setText("Paciente:");
 
-        jLabel2.setText("Email do respons√°vel:");
+        jLabel2.setText("Email do respons·vel:");
 
         jButton1.setText("Cadastrar");
 
@@ -58,7 +114,7 @@ public class Familiar extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 415, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jCpaciente, javax.swing.GroupLayout.PREFERRED_SIZE, 415, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(21, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -71,7 +127,7 @@ public class Familiar extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jCpaciente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
@@ -141,7 +197,7 @@ public class Familiar extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JComboBox<String> jCpaciente;
     private javax.swing.JTextField jTextField2;
     // End of variables declaration//GEN-END:variables
 }
