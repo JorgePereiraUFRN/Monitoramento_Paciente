@@ -42,8 +42,9 @@ public class PacienteService extends Service {
 			int dosagem = input.getInput().getAttributeValue("dosagem");
 
 			alertaInterface.notificarAlerta(mensagem, medicacao, dosagem);
+			
 		} catch (RemoteException | BDexception | ErroRMIException e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null,"Erro ao se conectar com a aplicação Médico", "Erro Comunicação", JOptionPane.ERROR_MESSAGE);
 		}
 
 		return null;

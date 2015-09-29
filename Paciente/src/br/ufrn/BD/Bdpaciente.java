@@ -48,6 +48,7 @@ public class Bdpaciente implements BDpacienteInterface {
 				 
 				 p.setId(rs.getInt("id"));
 				 p.setNome(rs.getString("nome"));
+				 p.setEmailResponsavel(rs.getString("emailREsponsavel"));
 				 
 				 pacientes.add(p);
 			 }

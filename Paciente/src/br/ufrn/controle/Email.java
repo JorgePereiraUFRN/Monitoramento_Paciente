@@ -22,7 +22,7 @@ import javax.mail.internet.MimeMessage;
  */
 public class Email {
 
-	public void enviarEmail(String assunto, String mensagem, String destinatario) {
+	public void enviarEmail(String assunto, String mensagem, String medico, String familiar) {
 		
 		Properties props = new Properties();
 
@@ -34,7 +34,7 @@ public class Email {
 
 		Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
 			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication("medico@topicos.com.br", "123456");
+				return new PasswordAuthentication("sistema@topicos.com.br", "123456");
 			}
 		});
 
@@ -44,10 +44,10 @@ public class Email {
 		try {
 
 			Message message = new MimeMessage(session);
-			message.setFrom(new InternetAddress("medico@topicos.com.br")); // Remetente
+			message.setFrom(new InternetAddress("sistema@topicos.com.br")); // Remetente
 
 			Address[] toUser = InternetAddress // Destinatário(s)
-					.parse(destinatario);
+					.parse(medico+","+familiar);
 
 			message.setRecipients(Message.RecipientType.TO, toUser);
 			message.setSubject(assunto);// Assunto

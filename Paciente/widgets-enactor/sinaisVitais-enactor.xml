@@ -21,7 +21,7 @@
         <Outcome outAttribute="medicacao">"Efortil"</Outcome>
        <Outcome outAttribute="mensagem">"A PRESSAO DO PACIENTE ENCONTRA-SE ABAIXO DOS VALORES NORMAIS."</Outcome>
         <Outcome outAttribute="dosagem">5</Outcome>
-        <Outcome outAttribute="sinalVital">"PRESSÃO"</Outcome>
+        <Outcome outAttribute="sinalVital">"PRESSAO"</Outcome>
         <ServiceInput service="sinaisVitaisService" function="tratarPaciente">
             <Attribute name="medicacao" />
             <Attribute name="mensagem" />
@@ -41,7 +41,7 @@
         <Outcome outAttribute="medicacao">"Atenolol"</Outcome>
         <Outcome outAttribute="mensagem">"A PRESSAO DO PACIENTE ENCONTRA-SE ACIMA DOS VALORES NORMAIS."</Outcome>
         <Outcome outAttribute="dosagem">"50"</Outcome>
-        <Outcome outAttribute="sinalVital">"PRESSÃO"</Outcome>
+        <Outcome outAttribute="sinalVital">"PRESSAO"</Outcome>
         <ServiceInput service="sinaisVitaisService" function="tratarPaciente">
             <Attribute name="medicacao" />
             <Attribute name="mensagem" />
@@ -62,7 +62,7 @@
         <Outcome outAttribute="medicacao">"amiodarona generis"</Outcome>
         <Outcome outAttribute="mensagem">"OS BATIMENTOS CARDIACOS DO PACIENTE ENCONTRAM-SE ABAIXO DOS VALORES NORMAIS."</Outcome>
         <Outcome outAttribute="dosagem">200</Outcome>
-        <Outcome outAttribute="sinalVital">"BATIMENTOS CARDÍACOS"</Outcome>
+        <Outcome outAttribute="sinalVital">"BATIMENTOS CARDIACOS"</Outcome>
         <ServiceInput service="sinaisVitaisService" function="tratarPaciente">
             <Attribute name="medicacao" />
             <Attribute name="mensagem" />
@@ -83,7 +83,7 @@
         <Outcome outAttribute="medicacao">"AmioDarona"</Outcome>
         <Outcome outAttribute="mensagem">"OS BATIMENTOS CARDIACOS DO PACIENTE ENCONTRAM-SE ACIMA DOS VALORES NORMAIS."</Outcome>
         <Outcome outAttribute="dosagem">"200"</Outcome>
-        <Outcome outAttribute="sinalVital">"BATIMENTOS CARDÍACOS"</Outcome>
+        <Outcome outAttribute="sinalVital">"BATIMENTOS CARDIACOS"</Outcome>
         <ServiceInput service="sinaisVitaisService" function="tratarPaciente">
             <Attribute name="medicacao" />
             <Attribute name="mensagem" />
@@ -104,7 +104,7 @@
         <Outcome outAttribute="medicacao">"amiodarona generis"</Outcome>
         <Outcome outAttribute="mensagem">"OS BATIMENTOS CARDIACOS E PRESSÃO SANGUÍNEA DO PACIENTE ENCONTRAM-SE ACIMA DOS VALORES NORMAIS."</Outcome>
         <Outcome outAttribute="dosagem">"250"</Outcome>
-        <Outcome outAttribute="sinalVital">"BATIMENTOS CARDÍACOS E PRESSAO"</Outcome>
+        <Outcome outAttribute="sinalVital">"BATIMENTOS CARDIACOS E PRESSAO"</Outcome>
         <ServiceInput service="sinaisVitaisService" function="tratarPaciente">
             <Attribute name="medicacao" />
             <Attribute name="mensagem" />
@@ -121,10 +121,10 @@
             )
 			
         </Query>
-        <Outcome outAttribute="medicacao">"GTG"</Outcome>
+        <Outcome outAttribute="medicacao">"Amiodarona"</Outcome>
         <Outcome outAttribute="mensagem">"OS BATIMENTOS CARDIACOS DO PACIENTE ENCONTRAM-SE AXCIMA DOS VALORES NORMAIS.A PRESSÃO SANGUÍNEA ENCONTRASSE ABIXO DOS VALORES NORMAIS"</Outcome>
         <Outcome outAttribute="dosagem">"250"</Outcome>
-        <Outcome outAttribute="sinalVital">"BATIMENTOS CARDÍACOS E PRESSAO"</Outcome>
+        <Outcome outAttribute="sinalVital">"BATIMENTOS CARDIACOS E PRESSAO"</Outcome>
         <ServiceInput service="sinaisVitaisService" function="tratarPaciente">
             <Attribute name="medicacao" />
             <Attribute name="mensagem" />
@@ -142,10 +142,10 @@
             )
 			
         </Query>
-        <Outcome outAttribute="medicacao">"nnn"</Outcome>
+        <Outcome outAttribute="medicacao">"amiodarona generis"</Outcome>
         <Outcome outAttribute="mensagem">"OS BATIMENTOS CARDIACOS DO PACIENTE ENCONTRAM-SE ABAIXO DOS VALORES NORMAIS.\N A PRESSÃO SANGUÍNEA ENCONTRASSE CIMA DOS VALORES NORMAIS"</Outcome>
         <Outcome outAttribute="dosagem">"250"</Outcome>
-        <Outcome outAttribute="sinalVital">"BATIMENTOS CARDÍACOS E PRESSAO"</Outcome>
+        <Outcome outAttribute="sinalVital">"BATIMENTOS CARDIACOS E PRESSAO"</Outcome>
         <ServiceInput service="sinaisVitaisService" function="tratarPaciente">
             <Attribute name="medicacao" />
             <Attribute name="mensagem" />
@@ -166,7 +166,7 @@
         <Outcome outAttribute="medicacao">"AmioDarona"</Outcome>
         <Outcome outAttribute="mensagem">"OS BATIMENTOS CARDIACOS E PRESSÃO SANGUÍNEA DO PACIENTE ENCONTRAM-SE ABAIXO DOS VALORES NORMAIS."</Outcome>
         <Outcome outAttribute="dosagem">"250"</Outcome>
-        <Outcome outAttribute="sinalVital">"BATIMENTOS CARDÍACOS E PRESSAO"</Outcome>
+        <Outcome outAttribute="sinalVital">"BATIMENTOS CARDIACOS E PRESSAO"</Outcome>
         <ServiceInput service="sinaisVitaisService" function="tratarPaciente">
             <Attribute name="medicacao" />
             <Attribute name="mensagem" />
@@ -184,7 +184,7 @@
         <Outcome outAttribute="medicacao">"Soro fisiologico glicosado "</Outcome>
         <Outcome outAttribute="mensagem">"O NIVEL DE GLICOSE DO PACIENTE ENCONTRA-SE ABAIXO DOS VALORES NORMAIS."</Outcome>
         <Outcome outAttribute="dosagem">"500"</Outcome>
-        <Outcome outAttribute="sinalVital">"NÍVEL DE GLICOSE"</Outcome>
+        <Outcome outAttribute="sinalVital">"NIVEL DE GLICOSE"</Outcome>
         <ServiceInput service="sinaisVitaisService" function="tratarPaciente">
             <Attribute name="medicacao" />
             <Attribute name="mensagem" />
@@ -202,7 +202,7 @@
         <Outcome outAttribute="medicacao">"Glucovance"</Outcome>
         <Outcome outAttribute="mensagem">"O NIVEL DE GLICOSE DO PACIENTE ENCONTRA-SE ACIMA DOS VALORES NORMAIS."</Outcome>
         <Outcome outAttribute="dosagem">"250"</Outcome>
-        <Outcome outAttribute="sinalVital">"NÍVEL DE GLICOSE"</Outcome>
+        <Outcome outAttribute="sinalVital">"NIVEL DE GLICOSE"</Outcome>
         <ServiceInput service="sinaisVitaisService" function="tratarPaciente">
             <Attribute name="medicacao" />
             <Attribute name="mensagem" />

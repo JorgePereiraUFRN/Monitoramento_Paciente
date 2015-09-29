@@ -11,6 +11,7 @@ import java.rmi.RemoteException;
 import java.util.Date;
 
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 import br.ufrn.controle.PacienteFachada;
 import br.ufrn.controle.PacienteFachadaInterface;
@@ -38,8 +39,8 @@ public class paciente extends javax.swing.JFrame implements PacienteGUI {
 		pacienteControle = new PacienteFachada(this);
 		inserirNomepaciente();
 		initComponents();
-		
-		this.setTitle("Paciente "+paciente);
+
+		this.setTitle("Paciente " + paciente);
 
 	}
 
@@ -59,13 +60,17 @@ public class paciente extends javax.swing.JFrame implements PacienteGUI {
 	@Override
 	public void updateGUI(String medicamento, Date horario, Integer dosagem, String mensagem) {
 
+		DefaultTableModel model = (DefaultTableModel) jTmedicacao.getModel();
+		model.addRow(new String[]{null, null, null});
+		
 		jTmedicacao.setValueAt(medicamento, linhasTabela, 0);
 		jTmedicacao.setValueAt(horario.toLocaleString(), linhasTabela, 1);
 		jTmedicacao.setValueAt(dosagem, linhasTabela, 2);
 
 		linhasTabela++;
 
-		JOptionPane.showMessageDialog(this, mensagem + "\nmedicacao: " + medicamento + " dosagem: " + dosagem);
+		JOptionPane.showMessageDialog(this, mensagem + "\nmedicacao: " + medicamento + " dosagem: " + dosagem,
+				"Sinais vitais fora dos limites", JOptionPane.WARNING_MESSAGE);
 	}
 
 	@Override
@@ -139,8 +144,7 @@ public class paciente extends javax.swing.JFrame implements PacienteGUI {
 
 		jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-		jTmedicacao.setModel(new javax.swing.table.DefaultTableModel(new Object[][] { { null, null, null },
-				{ null, null, null }, { null, null, null }, { null, null, null } },
+		jTmedicacao.setModel(new javax.swing.table.DefaultTableModel(new Object[][] {  },
 				new String[] { "Medicamento", "Horário", "Dosagem" }) {
 			boolean[] canEdit = new boolean[] { false, false, false };
 

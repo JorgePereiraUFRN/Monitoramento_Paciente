@@ -11,6 +11,8 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.swing.JOptionPane;
+
 import org.coach.tracing.service.ntp.TimeStamp;
 
 import br.ufrn.BD.AlertaBD;
@@ -30,30 +32,28 @@ import context.arch.enactor.EnactorXmlParser;
 import context.arch.widget.Widget;
 import context.arch.widget.WidgetXmlParser;
 
-public class PacienteFachada extends UnicastRemoteObject implements PacienteFachadaInterface, CallbackPacienteInterface {
+public class PacienteFachada extends UnicastRemoteObject
+		implements PacienteFachadaInterface, CallbackPacienteInterface {
 
 	// private MonitoramentoPaciente paciente;
 	private final Widget widgetPaciente;
 	private final Enactor pacienteEnactor;
 	private final PacienteService pacienteService;
 	private final Widget widgetSaida;
-	
+
 	private final Email email = new Email();
 	private final AlertaBD bd = new AlertaBD();
 	private BDpacienteInterface BDpaciente = new Bdpaciente();
 	private MedicoInterface medico;
-	
+
 	private Paciente paciente = new Paciente();
 	private PacienteGUI gui;
-	
-	
 
 	public PacienteFachada(PacienteGUI gui) throws RemoteException {
 		this.gui = gui;
-		
-		
+
 		Discoverer.start();
-               
+
 		widgetPaciente = WidgetXmlParser.createWidget("widgets-enactor/sinaisVitais-widget.xml");
 
 		widgetSaida = WidgetXmlParser.createWidget("widgets-enactor/output-widget.xml");
@@ -62,107 +62,120 @@ public class PacienteFachada extends UnicastRemoteObject implements PacienteFach
 		widgetSaida.addService(pacienteService);
 
 		pacienteEnactor = EnactorXmlParser.createEnactor("widgets-enactor/sinaisVitais-enactor.xml");
-		
+
 		widgetPaciente.updateData("nivelGlicose", 80);
 		widgetPaciente.updateData("batimentosCardiacos", 80);
 		widgetPaciente.updateData("pressao", 10);
 	}
-	
-	private MedicoInterface recuperarReferenciaMedico() throws MalformedURLException, RemoteException, NotBoundException{
+
+	private MedicoInterface recuperarReferenciaMedico()
+			throws MalformedURLException, RemoteException, NotBoundException {
 		MedicoInterface medico = null;
-		
+
 		String registryURL = "rmi://localhost:2000/medico";
-		
-		medico = (MedicoInterface) Naming
-				.lookup(registryURL);
-		
+
+		medico = (MedicoInterface) Naming.lookup(registryURL);
+
 		return medico;
 	}
 
-        @Override
+	@Override
 	public void atualizarGlicose(int nivelGlicose) {
 		widgetPaciente.updateData("nivelGlicose", nivelGlicose);
 	}
 
-        @Override
+	@Override
 	public void atualizarBatimentos(int batimentosCardiacos) {
 		widgetPaciente.updateData("batimentosCardiacos", batimentosCardiacos);
 	}
 
-        @Override
+	@Override
 	public void atualizarPressao(int pressao) {
 		widgetPaciente.updateData("pressao", pressao);
-  
+
 	}
 
 	@Override
-	public void notificarAlerta(String mensagem, String medicacao, int dosagem) throws BDexception, RemoteException, ErroRMIException {	
-		
+	public void notificarAlerta(String mensagem, String medicacao, int dosagem)
+			throws BDexception, RemoteException, ErroRMIException {
+
 		Alerta alerta = new Alerta();
 		alerta.setData(new Timestamp(System.currentTimeMillis()));
 		alerta.setDosagem(dosagem);
 		alerta.setMedicacao(medicacao);
 		alerta.setSinalVitasDesconforme(widgetSaida.getNonConstantAttributeValue("sinalVital"));
-		
+
 		Map<String, Integer> sinaisVitais = new HashMap<>();
-		
-		sinaisVitais.put(SinalVital.BATIMENTOS.toString(), widgetPaciente.getNonConstantAttributeValue("batimentosCardiacos"));
+
+		sinaisVitais.put(SinalVital.BATIMENTOS.toString(),
+				widgetPaciente.getNonConstantAttributeValue("batimentosCardiacos"));
 		sinaisVitais.put(SinalVital.GLICOSE.toString(), widgetPaciente.getNonConstantAttributeValue("nivelGlicose"));
 		sinaisVitais.put(SinalVital.PRESSAO.toString(), widgetPaciente.getNonConstantAttributeValue("pressao"));
-		
-	
+
 		alerta.setSinaisVitais(sinaisVitais);
-		alerta.setPaciente(BDpaciente.listarPacienteByName(gui.getNomePaciente()).get(0));
-		
-		
-		if(alerta != null){
-		
-		String mensagemEmail = " Sinais vitais do Paciente em "+ alerta.getData().toLocaleString() +"\n";
-		
-		for(String s : sinaisVitais.keySet()){
-			mensagemEmail += s +" = "+sinaisVitais.get(s)+"\n";
+
+		paciente = BDpaciente.listarPacienteByName(gui.getNomePaciente()).get(0);
+
+		if (paciente.getEmailResponsavel() == null || paciente.getNome() == null) {
+			JOptionPane.showMessageDialog(null, "Erro ao recupear email e nome do paciente", "BD erro",
+					JOptionPane.ERROR_MESSAGE);
 		}
-		
-		mensagemEmail += "\nMedicação aplicada:" +alerta.getMedicacao() + " dosagem: "+alerta.getDosagem();
-			
-		
-		String assunto= alerta.getSinalVitalDesconforme() +" do Paiciente "+alerta.getPaciente()+" fora dos limites";
-		
-		//email.enviarEmail(assunto, mensagem, "paciente@topicos.com.br");
-		
-		if(medico == null){
-			try {
-				medico = recuperarReferenciaMedico();
-				medico.registrarPaciente(this, gui.getNomePaciente());
-				
-			} catch (MalformedURLException | NotBoundException e) {
-				throw new ErroRMIException(e.getMessage());
+
+		alerta.setPaciente(paciente);
+
+		if (alerta != null) {
+
+			String mensagemEmail = " Sinais vitais do Paciente em " + alerta.getData().toLocaleString() + "\n";
+
+			for (String s : sinaisVitais.keySet()) {
+				mensagemEmail += s + " = " + sinaisVitais.get(s) + "\n";
 			}
-			
+
+			mensagemEmail += "\nMedicação aplicada:" + alerta.getMedicacao() + " dosagem: " + alerta.getDosagem();
+
+			String assunto = alerta.getSinalVitalDesconforme() + " do Paciente " + alerta.getPaciente().getNome()
+					+ " fora dos limites";
+
+			email.enviarEmail(assunto, mensagemEmail, paciente.getEmailResponsavel(), "medico@topicos.com.br");
+
+			if (medico == null) {
+				try {
+					medico = recuperarReferenciaMedico();
+				} catch (MalformedURLException | NotBoundException e) {
+					throw new ErroRMIException(e.getMessage());
+				}
+
+			}
+
+			try {
+				medico.registrarPaciente(this, gui.getNomePaciente());
+			} catch (RemoteException e) {
+				System.out.println("\n\n\n" + e.getMessage() + "\n\n\n");
+			}
+
+			medico.notificarAlerta(alerta.getPaciente().getNome());
+
+			bd.salvarDadosAlerta(alerta);
+
+			gui.updateGUI(alerta.getMedicacao(), alerta.getData(), alerta.getDosagem(), mensagem);
+
 		}
-		medico.notificarAlerta(alerta.getPaciente().getNome());
 		
-		bd.salvarDadosAlerta(alerta);
-		
-		gui.updateGUI(alerta.getMedicacao(), alerta.getData(), alerta.getDosagem(), mensagem);
-		
-		}
 		
 	}
 
 	@Override
 	public void enviarMensagem(String mensagem) throws RemoteException {
-		
-		
+
 	}
 
 	@Override
 	public void inserirNomePaciente(String nome) throws BDexception {
-		
-		if(BDpaciente.listarPacienteByName(nome).size() == 0){
+
+		if (BDpaciente.listarPacienteByName(nome).size() == 0) {
 			BDpaciente.casdastrarPaciente(nome);
 		}
-		
+
 	}
 
 }

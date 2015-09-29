@@ -4,7 +4,16 @@ public class Paciente {
 
 	private String nome;
 	private int id;
+	private String emailResponsavel;
 
+
+	public String getEmailResponsavel() {
+		return emailResponsavel;
+	}
+
+	public void setEmailResponsavel(String emailResponsavel) {
+		this.emailResponsavel = emailResponsavel;
+	}
 
 	public int getId() {
 		return id;
